@@ -36,7 +36,7 @@ class VirtualMirror(object):
         else:
             int_direction = 1 # Default horz
         np_arr = np.fromstring(msg.data, np.uint8)
-        cv_image = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        cv_image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         img_msg = cv2.flip(cv_image,int_direction)
         img_msg = self.bridge.cv2_to_imgmsg(img_msg, "bgr8") 
         self.pub_img.publish(img_msg)

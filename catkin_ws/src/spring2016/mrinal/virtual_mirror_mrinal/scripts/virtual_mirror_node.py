@@ -50,7 +50,7 @@ class image_processor:
 
   def callback(self,ros_data):
     np_arr = np.fromstring(ros_data.data, np.uint8)
-    image_np = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+    image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
     image_np = cv2.flip(image_np, self.flip_code)
 
     #### Create CompressedIamge ####

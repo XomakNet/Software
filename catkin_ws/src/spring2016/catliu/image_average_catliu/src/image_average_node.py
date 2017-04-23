@@ -19,7 +19,7 @@ class ImageAverageNode(object):
     # Define Timer callback
     def callback(self, msg):
         np_arr = np.fromstring(msg.data, np.uint8)
-        cv_image = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        cv_image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         cv_image = cv_image.astype('float32')
         if self.numFrames == 0:
             self.avg = cv_image

@@ -17,7 +17,7 @@ bridge = CvBridge()
 def callback(ros_data):
 	# Convert to CV2
 	np_arr = np.fromstring(ros_data.data, np.uint8)
-  	image_np = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+  	image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 	
 	# Flip image
 	flipped = cv2.flip(image_np,1)

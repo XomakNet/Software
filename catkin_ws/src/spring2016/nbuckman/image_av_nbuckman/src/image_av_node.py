@@ -19,7 +19,7 @@ class ImageAvNode(object):
 		self.bridge = CvBridge()
 	def flipImageNP(self,msg):
 		np_array = np.fromstring(msg.data, np.uint8)
-		image_np = cv2.imdecode(np_array, cv2.CV_LOAD_IMAGE_COLOR)		
+		image_np = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
 		#flip_arr = np.fliplr(np_arr)
 		imageflip_np=cv2.flip(image_np,1)
 		flip_im = CompressedImage()
@@ -34,7 +34,7 @@ class ImageAvNode(object):
         # with OpenCV
 		cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
 
-		#image_cv = cv2.imdecode(np.fromstring(msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+		#image_cv = cv2.imdecode(np.fromstring(msg.data, np.uint8), cv2.IMREAD_COLOR)
 		hei_original = image_cv.shape[0]
 		wid_original = image_cv.shape[1]
 		#reverseimage = image_cv[:,:,-1]
@@ -45,7 +45,7 @@ class ImageAvNode(object):
 
 		#self.pub_image.publish(flippedMsg)
 
-		#image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+		#image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.IMREAD_COLOR)
 		#flippedImage = image_cv
 
 

@@ -37,7 +37,7 @@ class image_averager:
         try:
             np_arr = np.fromstring(ros_data.data, np.uint8)
             #decode the image into a raw cv2 image (numpy.ndarray)
-            rgb_in_u8 = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+            rgb_in_u8 = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         except CvBridgeError as e:
             print(e)
 

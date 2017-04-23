@@ -34,7 +34,7 @@ class DecoderNode(object):
 
         np_arr = np.fromstring(msg.data, np.uint8)
          
-        cv_image = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        cv_image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         # time_1 = time.time()
         img_msg = self.bridge.cv2_to_imgmsg(cv_image, "bgr8")
         rgb_in = np.fromstring(img_msg.data, np.uint8)

@@ -11,7 +11,7 @@ image_pub = rospy.Publisher("output",Image,queue_size=1)
 
 def callback(original_image):
     np_arr = np.fromstring(original_image.data, np.uint8)
-    image_in = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+    image_in = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
     new_image = cv2.flip(image_in,1)
     image_pub.publish(bridge.cv2_to_imgmsg(new_image,"bgr8"))
 

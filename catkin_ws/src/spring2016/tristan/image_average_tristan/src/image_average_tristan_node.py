@@ -50,7 +50,7 @@ class ImageAverageNode(object):
 
         # Decode from compressed image
         # with OpenCV
-        image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+        image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.IMREAD_COLOR)
 
         # Verbose
         if self.verbose:

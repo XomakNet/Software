@@ -18,7 +18,7 @@ class ImageAverager:
     def callback(self, msg):
         # Load image
         np_arr = np.fromstring(msg.data, np.uint8)
-        image_np = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         
         # Convert image to float
         image_np_float = image_np.astype('float')

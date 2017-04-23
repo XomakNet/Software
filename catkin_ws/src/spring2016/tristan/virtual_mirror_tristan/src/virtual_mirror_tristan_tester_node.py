@@ -34,7 +34,7 @@ class VirtualMirrorTester(object):
         return value
 
      def cbImage(self,image_msg):
-        image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+        image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.IMREAD_COLOR)
 
     def cbTimer(self,event):
         if not rospy.is_shutdown():

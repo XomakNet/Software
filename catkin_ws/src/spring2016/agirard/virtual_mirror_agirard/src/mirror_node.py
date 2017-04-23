@@ -25,7 +25,7 @@ class Mirror(object):
         # Load message
         #cv_img = self.bridge.imgmsg_to_cv2( msg.data )
         np_arr = np.fromstring(msg.data, np.uint8)
-        cv_img = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        cv_img = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         
         # Mirror
         cv_img_mirror = cv_img.copy()

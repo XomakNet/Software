@@ -11,7 +11,7 @@ bridge = CvBridge()
 # Define callback function
 def callback(msg):
     np_arr = np.fromstring(msg.data, np.uint8)
-    image_np = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+    image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
     image_out = cv2.flip(image_np, 1)
     image_out = bridge.cv2_to_imgmsg(image_out, encoding="passthrough")

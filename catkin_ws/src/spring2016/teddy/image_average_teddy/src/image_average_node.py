@@ -24,7 +24,7 @@ class VirtualMirrorNode(object):
     def processImage(self, image_msg):
         #rospy.loginfo('Image Received')
         np_img = np.fromstring(image_msg.data, np.uint8)
-        image_cv = cv2.imdecode(np_img, cv2.CV_LOAD_IMAGE_COLOR)/255.0
+        image_cv = cv2.imdecode(np_img, cv2.IMREAD_COLOR)/255.0
 
         if(self.image_count > 0):
             self.image_count += 1

@@ -19,9 +19,9 @@ def cam_callback(msg):
 
 	# Decode 
 	if(count==0):
-		imgsum = np.double(cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR))
+		imgsum = np.double(cv2.imdecode(np_arr, cv2.IMREAD_COLOR))
 	else:
-		imgsum += cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+		imgsum += cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 	
 	count=count+1
 

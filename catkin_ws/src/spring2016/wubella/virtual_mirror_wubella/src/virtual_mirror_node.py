@@ -47,7 +47,7 @@ class VirtualMirror(object):
 
         np_arr = np.fromstring(msg.data, np.uint8)
          
-        cv_image = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        cv_image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         #cv_image = cv2.flip(cv_image, 1)
 
         if self.flip_direction.direction == self.flip_direction.horz:

@@ -31,7 +31,7 @@ class averaged_image:
 	def average(self, image_msg):
 
 		#### direct conversion to CV2 ####
-	       	image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+	       	image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.IMREAD_COLOR)
 
 
 		
@@ -52,7 +52,7 @@ class averaged_image:
 
 		# Decode from compressed image
        	 	# with OpenCV
-        	#image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+        	#image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.IMREAD_COLOR)
 
 		#cv_image = bridge.imgmsg_to_cv2(image_message, desired_encoding="passthrough")
 
@@ -94,7 +94,7 @@ if __name__ == '__main__':
 #    def processImage(self,image_msg):
 #	# Decode from compressed image
 #        # with OpenCV
-#        image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+#        image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.IMREAD_COLOR)
 
 	# Flip image
 	# with OpenCV

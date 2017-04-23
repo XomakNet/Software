@@ -16,7 +16,7 @@ def callback(msg):
 		flipi = FlipDir.horz
 	#print flipi
 	imgcv = bridge.imgmsg_to_cv2(msg, "bgr8")
-	#cv2.imdecode(np.fromstring(msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+	#cv2.imdecode(np.fromstring(msg.data, np.uint8), cv2.IMREAD_COLOR)
 	flippedcv = cv2.flip(imgcv,flipi)
 	imgout = bridge.cv2_to_imgmsg(flippedcv, "bgr8")
 	imgout.header.stamp = msg.header.stamp

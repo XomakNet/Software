@@ -30,7 +30,7 @@ class ImageAverageNode(object):
 		# Returns rightaway
 	def processImage(self, image_msg):
 		if self.lock.testandset():
-			image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+			image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.IMREAD_COLOR)
 			if self.avg_img is not None:
 				img_float = cv2.normalize(image_cv.astype('float'), None, 0.0, 255.0, cv2.NORM_MINMAX)
 				alpha = 1 / float(self.count_images + 1)

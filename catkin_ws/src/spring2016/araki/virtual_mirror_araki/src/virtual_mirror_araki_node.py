@@ -29,7 +29,7 @@ class image_flipper:
 
     def callback(self,data):
         np_arr = np.fromstring(data.data,np.uint8)
-        image_np = cv2.imdecode(np_arr,cv2.CV_LOAD_IMAGE_COLOR)
+        image_np = cv2.imdecode(np_arr,cv2.IMREAD_COLOR)
         if self.flip_direction == "horz":
             flipped = cv2.flip(image_np,1)
         elif self.flip_direction == "vert":

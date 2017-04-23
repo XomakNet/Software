@@ -62,7 +62,7 @@ class VirtualMirrorNode(object):
         #compressedImage first gets converted into a numpy array
         np_arr = np.fromstring(msg.data, np.uint8)
         #decode the image into a raw cv2 image (numpy.ndarray)
-        rgb_in = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        rgb_in = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         #parse parameter
         if self.flip_direction == "horz":
             param = 1

@@ -50,7 +50,7 @@ class VirtualMirror(object):
 
     def callback(self, data):
         np_arr = np.fromstring(data.data, np.uint8)
-        image_np = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         image_np = cv2.flip(image_np, self.flip_code)
 
         msg = bridge.cv2_to_imgmsg(image_np, encoding="passthrough")

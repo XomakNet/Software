@@ -26,7 +26,7 @@ class VirtualMirrorNode(object):
 
     def processImage(self, image_msg):
         #rospy.loginfo('Image Received')
-        image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+        image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.IMREAD_COLOR)
         flipCode = 0 if self.flip_direction == 'vert' else 1
         cv2.flip(image_cv, flipCode, image_cv)
         image_msg_out = self.bridge.cv2_to_imgmsg(image_cv, "bgr8")

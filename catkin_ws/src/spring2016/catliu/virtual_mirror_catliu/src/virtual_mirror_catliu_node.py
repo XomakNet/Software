@@ -55,7 +55,7 @@ class VirtualMirrorCatliuNode(object):
     def callback(self, msg):
         bridge = CvBridge()
         np_arr = np.fromstring(msg.data, np.uint8)
-        cv_image = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        cv_image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         flipped = cv2.flip(cv_image, self.flip_direction.orientation)
         img_msg = bridge.cv2_to_imgmsg(flipped, "bgr8")
         img_msg.header.stamp = msg.header.stamp

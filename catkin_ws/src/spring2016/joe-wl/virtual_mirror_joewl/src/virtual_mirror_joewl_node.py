@@ -50,7 +50,7 @@ class VirtualMirror(object):
     def flipImage(self,image_msg):
 	    # Convert image message to CV image:
 	    #image_cv = self.bridge.imgmsg_to_cv2(image_msg, "bgr8")
-        image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+        image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.IMREAD_COLOR)
 
 	    # Flip image based on flip_direction parameter:
         if self.flip_direction == "horz":	    

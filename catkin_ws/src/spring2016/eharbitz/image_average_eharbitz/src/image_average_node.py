@@ -26,7 +26,7 @@ class image_average():
 	def callback(self, ros_data):
 		# Convert to CV2
 		np_arr = np.fromstring(ros_data.data, np.uint8)
-		newImage_u8 = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+		newImage_u8 = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 		newImage = newImage_u8.astype('float32')
 		rgb_out_32 = newImage
 

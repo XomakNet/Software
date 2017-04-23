@@ -28,7 +28,7 @@ class MirrorTesterNode(object):
         return value
 
     def publishTestImage(self):
-        original_img = cv2.imread(self.original_image_file, cv2.CV_LOAD_IMAGE_COLOR)
+        original_img = cv2.imread(self.original_image_file, cv2.IMREAD_COLOR)
 
         #### Create CompressedIamge ####
         out = CompressedImage()
@@ -48,11 +48,11 @@ class MirrorTesterNode(object):
             flipped_image_file = self.flipped_image_horz
         else:
             flipped_image_file = self.flipped_image_vert
-        flipped_img = cv2.imread(flipped_image_file, cv2.CV_LOAD_IMAGE_COLOR)
+        flipped_img = cv2.imread(flipped_image_file, cv2.IMREAD_COLOR)
 
         # Decode returned image
         np_arr = np.fromstring(msg.data, np.uint8)
-        returned_image = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        returned_image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
         # print (returned_image - flipped_img)
 

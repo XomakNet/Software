@@ -44,7 +44,7 @@ class VirtualMirrorNode(object):
 		# Returns rightaway
 
 	def processImage(self, image_msg):
-		image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+		image_cv = cv2.imdecode(np.fromstring(image_msg.data, np.uint8), cv2.IMREAD_COLOR)
 		fimage = cv2.flip(image_cv, self.flip_dir)
 		rospy.loginfo("Image Shape: [%d x %d]." % (image_cv.shape[0], image_cv.shape[1]))
 		image_msg_out = self.bridge.cv2_to_imgmsg(fimage, "bgr8")

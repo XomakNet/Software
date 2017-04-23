@@ -19,7 +19,7 @@ class image_average():
 
     def callback(self,original_image):
     	np_arr = np.fromstring(original_image.data, np.uint8)
-	image_in = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+	image_in = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
     	self.acc = self.acc+1
     	if self.average_image == None or self.sum_image ==None:
 	    self.average_image = image_in.copy()

@@ -32,7 +32,7 @@ class VirtualMirrorNode(object):
     def cbImg(self, msg):
         rospy.loginfo("in cbImg virtual mirror")
         np_arr = np.fromstring(msg.data, np.uint8)
-        cv_image = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        cv_image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         # time_1 = time.time()
         if self.flipdirection == "horz":
             mirror_image = cv2.flip(cv_image, 1)

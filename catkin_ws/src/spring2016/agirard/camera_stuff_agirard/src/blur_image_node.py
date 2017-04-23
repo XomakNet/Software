@@ -28,7 +28,7 @@ class BlurImage(object):
         
         # Load message
         np_arr = np.fromstring(msg.data, np.uint8)
-        cv_img = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)   
+        cv_img = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         
         self.n = self.n + 1
         #print self.n

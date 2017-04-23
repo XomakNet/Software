@@ -34,7 +34,7 @@ class MirrorNode(object):
         #### direct conversion to CV2 ####
         # print 'image received'
         np_arr = np.fromstring(msg.data, np.uint8)
-        image_np = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+        image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
         flipCode = 1 if self.flip_direction == "horz" else 0
         image_np_out = cv2.flip(image_np, flipCode)

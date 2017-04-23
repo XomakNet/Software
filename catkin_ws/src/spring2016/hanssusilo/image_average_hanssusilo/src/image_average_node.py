@@ -22,7 +22,7 @@ class ImageAverager:
 	
 	# Define callback function
 	def callback(self,msg):
-		imgcv = cv2.imdecode(np.fromstring(msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+		imgcv = cv2.imdecode(np.fromstring(msg.data, np.uint8), cv2.IMREAD_COLOR)
 		if self.N>0:
 			self.avgimg = self.avgimg*self.N/(self.N+1)+imgcv/(self.N+1)
 		else:

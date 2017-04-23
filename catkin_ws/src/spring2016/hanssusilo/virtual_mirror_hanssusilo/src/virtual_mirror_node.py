@@ -8,7 +8,7 @@ import numpy as np
 
 # Define callback function
 def callback(msg):
-	imgcv = cv2.imdecode(np.fromstring(msg.data, np.uint8), cv2.CV_LOAD_IMAGE_COLOR)
+	imgcv = cv2.imdecode(np.fromstring(msg.data, np.uint8), cv2.IMREAD_COLOR)
 	flippedcv = cv2.flip(imgcv,1)
 	imgout = bridge.cv2_to_imgmsg(flippedcv, "bgr8")
 	imgout.header.stamp = msg.header.stamp

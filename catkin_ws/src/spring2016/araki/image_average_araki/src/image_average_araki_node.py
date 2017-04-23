@@ -22,7 +22,7 @@ class image_averager:
     def callback(self,data):
         try:
             np_arr = np.fromstring(data.data,np.uint8)
-            image_np = cv2.imdecode(np_arr,cv2.CV_LOAD_IMAGE_COLOR)
+            image_np = cv2.imdecode(np_arr,cv2.IMREAD_COLOR)
             new_im = image_np.astype('float32')
             rgb_out_32 = new_im
         except CvBridgeError as e:
