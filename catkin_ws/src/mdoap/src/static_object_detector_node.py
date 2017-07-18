@@ -48,7 +48,7 @@ class Matcher:
         
         filtered_contours = []
         
-        contours, hierarchy = cv2.findContours(\
+        _, contours, hierarchy = cv2.findContours(\
                 thresh,cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)
         contour_area = [ (cv2.contourArea(c), (c) ) for c in contours]
         contour_area = sorted(contour_area,reverse=True, key=lambda x: x[0])
