@@ -3,7 +3,7 @@ import rospy
 import time
 #from led_detection.LEDDetector import LEDDetector
 from std_msgs.msg import Byte
-from duckietown_msgs.msg import FSMState, Vector2D, AprilTags, LEDDetection, LEDDetectionArray, LEDDetectionDebugInfo, SignalsDetection 
+from duckietown_msgs.msg import FSMState, Vector2D, LEDDetection, LEDDetectionArray, LEDDetectionDebugInfo, SignalsDetection #, AprilTags
 from sensor_msgs.msg import CompressedImage
 #from duckietown_utils.bag_logs import numpy_from_ros_compressed
 #import numpy as np
