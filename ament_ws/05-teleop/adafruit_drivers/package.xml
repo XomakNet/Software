@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package format="2">
+    <name>adafruit_drivers</name>
+    <version>1.0.0</version>
+    <description>Adafruit drivers for ROS2.</description>
+
+    <author email="yershov@mit.edu">Dmitry Yershov</author>
+    <maintainer email="mack@duckietown.org">Mack</maintainer>
+
+    <license>GPLv3</license>
+
+    <build_depend>rclpy</build_depend>
+    <exec_depend>rclpy</exec_depend>
+
+    <export>
+        <build_type>ament_python</build_type>
+    </export>
+</package>
