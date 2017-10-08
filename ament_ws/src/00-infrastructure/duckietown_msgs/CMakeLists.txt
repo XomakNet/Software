@@ -1,104 +1,43 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(duckietown_msgs)
 
-find_package(ament_cmake REQUIRED COMPONENTS
-  rclcpp
-  rclpy
-  message_generation
-  std_msgs
-  geometry_msgs
-  visualization_msgs
-  sensor_msgs
-  tf_conversions
-  tf
-)
+if(NOT WIN32)
+  add_definitions(-std=c++11)
+endif()
 
-## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  CarControl.msg
-  CoordinationSignal.msg
-  DuckieSensor.msg
-  LanePose.msg
-#  LEDControl.msg
-  LEDDetection.msg
-  LEDDetectionArray.msg
-  LEDDetectionDebugInfo.msg
-  WheelsCmd.msg
-  WheelsCmdStamped.msg
-  Pose2DStamped.msg
-  SignalsDetection.msg
-  Twist2DStamped.msg
-  AprilTagDetection.msg
-  AprilTagDetectionArray.msg
-  AprilTagsWithInfos.msg
-  TagInfo.msg
-  Pixel.msg
-  Vector2D.msg
-  Segment.msg
-  SegmentList.msg
-  Rect.msg
-  Rects.msg
-  SceneSegments.msg
-  SourceTargetNodes.msg
-  CoordinationClearance.msg
-#  IntersectionDetection.msg
-#  CoordinationSignal.msg
-#  TrafficLightDetection.msg
-  VehicleCorners.msg
-  VehiclePose.msg
-#  VehicleDetection.msg
-  FSMState.msg
-  BoolStamped.msg
-  StopLineReading.msg
-  LEDInterpreter.msg
-  AntiInstagramHealth.msg
-  AntiInstagramTransform.msg
-  KinematicsWeights.msg
-  KinematicsParameters.msg
-  ThetaDotSample.msg
-  Vsample.msg
-  Trajectory.msg
-  ObstacleType.msg
-  ObstacleImageDetection.msg
-  ObstacleImageDetectionList.msg
-  ObstacleProjectedDetection.msg
-  ObstacleProjectedDetectionList.msg
+find_package(rosidl_default_generators REQUIRED)
 
-)
-
-## Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  SetFSMState.srv
-  SetValue.srv
-  # Service2.srv
-)
-
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
+find_package(message_generation REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(visualization_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(tf_conversions REQUIRED)
+find_package(tf REQUIRED)
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
+rosidl_generate_interfaces(${PROJECT_NAME}
+  ${msg_files}
   DEPENDENCIES
   std_msgs
   geometry_msgs
   sensor_msgs
 )
 
+include_directories(${rclcpp_INCLUDE_DIRS}
+                    ${rmw_implementation_INCLUDE_DIRS}
+                    ${std_msgs_INCLUDE_DIRS})
 
-ament_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES duckietown_msgs
-   CATKIN_DEPENDS
+ament_export_dependencies(
    geometry_msgs
    rclcpp rclpy
    sensor_msgs
    std_msgs
    message_runtime
    visualization_msgs
-#  DEPENDS system_lib
-)
+   )
 
-
-include_directories(
-  ${ament_INCLUDE_DIRS}
-)
+ament_package()
