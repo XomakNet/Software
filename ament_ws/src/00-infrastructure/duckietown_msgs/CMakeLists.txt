@@ -13,6 +13,7 @@ find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(builtin_interfaces REQUIRED)
 # find_package(tf_conversions REQUIRED)
 # find_package(tf REQUIRED)
 
@@ -70,6 +71,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   std_msgs
   geometry_msgs
   sensor_msgs
+  builtin_interfaces
 )
 
 include_directories(${rclcpp_INCLUDE_DIRS}
