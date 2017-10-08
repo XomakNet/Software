@@ -19,7 +19,54 @@ find_package(tf REQUIRED)
 
 ## Generate added messages and services with any dependencies listed here
 rosidl_generate_interfaces(${PROJECT_NAME}
-  ${msg_files}
+  CarControl.msg
+  CoordinationSignal.msg
+  DuckieSensor.msg
+  LanePose.msg
+#  LEDControl.msg
+  LEDDetection.msg
+  LEDDetectionArray.msg
+  LEDDetectionDebugInfo.msg
+  WheelsCmd.msg
+  WheelsCmdStamped.msg
+  Pose2DStamped.msg
+  SignalsDetection.msg
+  Twist2DStamped.msg
+  AprilTagDetection.msg
+  AprilTagDetectionArray.msg
+  AprilTagsWithInfos.msg
+  TagInfo.msg
+  Pixel.msg
+  Vector2D.msg
+  Segment.msg
+  SegmentList.msg
+  Rect.msg
+  Rects.msg
+  SceneSegments.msg
+  SourceTargetNodes.msg
+  CoordinationClearance.msg
+#  IntersectionDetection.msg
+#  CoordinationSignal.msg
+#  TrafficLightDetection.msg
+  VehicleCorners.msg
+  VehiclePose.msg
+#  VehicleDetection.msg
+  FSMState.msg
+  BoolStamped.msg
+  StopLineReading.msg
+  LEDInterpreter.msg
+  AntiInstagramHealth.msg
+  AntiInstagramTransform.msg
+  KinematicsWeights.msg
+  KinematicsParameters.msg
+  ThetaDotSample.msg
+  Vsample.msg
+  Trajectory.msg
+  ObstacleType.msg
+  ObstacleImageDetection.msg
+  ObstacleImageDetectionList.msg
+  ObstacleProjectedDetection.msg
+  ObstacleProjectedDetectionList.msg
   DEPENDENCIES
   std_msgs
   geometry_msgs
