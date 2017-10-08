@@ -5,9 +5,8 @@ if(NOT WIN32)
   add_definitions(-std=c++11)
 endif()
 
-find_package(rosidl_default_generators REQUIRED)
-
 find_package(ament_cmake REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(message_generation REQUIRED)
