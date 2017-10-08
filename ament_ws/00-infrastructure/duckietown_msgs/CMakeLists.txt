@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(duckietown_msgs)
 
-find_package(catkin REQUIRED COMPONENTS
+find_package(ament_cmake REQUIRED COMPONENTS
   rclcpp
   rclpy
   message_generation
@@ -85,7 +85,7 @@ generate_messages(
 )
 
 
-catkin_package(
+ament_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES duckietown_msgs
    CATKIN_DEPENDS
@@ -100,5 +100,5 @@ catkin_package(
 
 
 include_directories(
-  ${catkin_INCLUDE_DIRS}
+  ${ament_INCLUDE_DIRS}
 )
