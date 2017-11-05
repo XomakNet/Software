@@ -1,24 +1,33 @@
 #!/bin/bash
+#[ -z "$DUCKIETOWN_ROOT" ] && { echo "Need to set DUCKIETOWN_ROOT - configuration is invalid (!)";  }
+[ -z "$HOSTNAME"        ] && { echo "Need to set HOSTNAME.";        }
 
+# Do not compile Lisp messages
+# XXX: not sure if this is the place to put this.
+export ROS_LANG_DISABLE=gennodejs:geneus:genlisp
+
+shell=`basename $SHELL`
 echo "Activating ROS..."
-source /opt/ros/kinetic/setup.bash
-echo "...done."
+source /opt/ros/kinetic/setup.$shell
 
-echo "Setting up PYTHONPATH."
-export PYTHONPATH=/home/ubuntu/duckietown/catkin_ws/src:$PYTHONPATH
-
-echo "Setup ROS_HOSTNAME."
+echo "Setup ROS_HOSTNAME..."
+export HOSTNAME=$HOSTNAME
 export ROS_HOSTNAME=$HOSTNAME.local
-export DUCKIETOWN_ROOT=$HOME/duckietown
 
-echo "Building machines file..."
-make -C  $DUCKIETOWN_ROOT
-echo "...done"
-echo "Activating development."
-source $DUCKIETOWN_ROOT/catkin_ws/devel/setup.bash
+echo "Setting up DUCKIETOWN_ROOT..."
+export DUCKIETOWN_ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+echo "Setting up PYTHONPATH..."
+export PYTHONPATH=$DUCKIETOWN_ROOT/catkin_ws/src:$PYTHONPATH
+
+# Cannot make machines before building
+# echo "Building machines file..."
+# make -C $DUCKIETOWN_ROOT machines
+
+echo "Activating development environment..."
+source $DUCKIETOWN_ROOT/catkin_ws/devel/setup.$shell
 
 # TODO: check that the time is >= 2015
 
-# TODO: run a python script that checks all libraries are installed
 
 exec "$@" #Passes arguments. Need this for ROS remote launching to work.
