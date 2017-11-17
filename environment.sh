@@ -16,6 +16,7 @@ export ROS_HOSTNAME=$HOSTNAME.local
 
 echo "Setting up DUCKIETOWN_ROOT..."
 export DUCKIETOWN_ROOT=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+export DUCKIEFLEET_ROOT="/home/ubuntu/duckiefleet"
 
 echo "Setting up PYTHONPATH..."
 export PYTHONPATH=$DUCKIETOWN_ROOT/catkin_ws/src:$PYTHONPATH
