@@ -1,0 +1,53 @@
+# Initail state of the FSM
+initial_state: "LANE_FOLLOWING"
+
+events: #Maps from subscribing topic to signal ids
+  at_stop_line:
+    topic: "stop_line_filter_node/at_stop_line"
+    msg_type: "BoolStamped"
+    trigger: True
+  intersection_done:
+    topic: "open_loop_intersection_control_node/intersection_done"
+    msg_type: "BoolStamped"
+    trigger: True
+  emergency_stop:
+    topic: "wheels_driver_node/emergency_stop"
+    msg_type: "BoolStamped"
+    trigger: True
+
+# Define global transitions. Available from all states.
+global_transitions:
+  emergency_stop: "EMERGENCY_STOPPED"
+
+# Define nodes 
+nodes:
+  apriltag_node: "apriltag_detector_node/switch"
+  line_detector_node: "line_detector_node/switch"
+  lane_filter_node: "lane_filter_node/switch"
+  stop_line_filter_node: "stop_line_filter_node/switch"
+  framerate_high: "camera_node/framerate_high_switch"
+
+# Define state transitions
+states:
+  LANE_FOLLOWING:
+    transitions:
+      at_stop_line: "INTERSECTION_CONTROL"
+    active_nodes:
+      - lane_filter_node
+      - line_detector_node
+      - stop_line_filter_node
+      - apriltag_node
+    lights: ["lane_following"]
+  INTERSECTION_CONTROL:
+    transitions:
+      intersection_done: "LANE_FOLLOWING"
+    active_nodes:
+      - line_detector_node
+      - apriltag_node
+  EMERGENCY_STOPPED:
+    transitions:
+      intersection_done: "LANE_FOLLOWING" # MOCK
+    active_nodes:
+      - apriltag_node
+    lights: ["emergency_stop"]
+

@@ -1,0 +1,85 @@
+<launch>
+    <arg name="veh" doc="Name of vehicle. ex: megaman"/>
+    <arg name="local" default="true"
+         doc="true for running everything you possibly can on laptop. false for everything running on vehicle."/>
+    <arg name="config" default="baseline" doc="Specify a config."/>
+    <arg name="param_file_name" default="default" doc="Specify a param file. ex:megaman."/>
+    <arg name="live" default="true" doc="if set to true, run the camera and do live detection. "/>
+
+	<!--<include file="$(find duckietown)/launch/camera.launch">-->
+		<!--<arg name="veh" value="$(arg veh)"/>-->
+		<!--<arg name="local" value="$(arg local)"/>-->
+		<!--<arg name="config" value="$(arg config)"/>-->
+		<!--<arg name="param_file_name" value="$(arg param_file_name)"/>-->
+		<!--<arg name="raw" value="true"/>-->
+        <!--<arg name="rect" value="true"/>-->
+		<!--<arg name="cam_info" value="true"/> &lt;!&ndash; this should possible change later when we take logs without camera info but let's leave for now &ndash;&gt;-->
+		<!--<arg name="live" value="true"/>-->
+	<!--</include>-->
+
+    <include file="$(find duckietown)/launch/camera_localization.launch">
+        <arg name="veh" value="$(arg veh)"/>
+        <arg name="local" value="$(arg local)"/>
+        <arg name="gui" value="false"/>
+        <arg name="config" value="$(arg config)"/>
+        <arg name="camera" value="true"/>
+        <arg name="param_file_name" value="$(arg param_file_name)"/>
+    </include>
+
+    <include file="$(find fsm)/launch/fsm_node.launch">
+        <arg name="veh" value="$(arg veh)"/>
+        <arg name="local" value="$(arg local)"/>
+        <arg name="config" value="$(arg config)"/>
+        <arg name="param_file_name" value="cmd_based_intersections"/>
+    </include>
+
+    <!-- lane filter -->
+    <include file="$(find duckietown)/launch/lane_filter.launch">
+        <arg name="veh" value="$(arg veh)"/>
+        <arg name="local" value="$(arg local)"/>
+        <arg name="config" value="$(arg config)"/>
+        <arg name="camera" value="false"/>
+        <arg name="param_file_name" value="$(arg param_file_name)"/>
+        <arg name="live" value="false"/>
+    </include>
+
+    <!-- Lane controller -->
+    <remap from="lane_controller_node/lane_pose" to="lane_filter_node/lane_pose"/>
+    <include file="$(find lane_control)/launch/lane_controller_node.launch">
+        <arg name="veh" value="$(arg veh)"/>
+        <arg name="local" value="$(arg local)"/>
+        <arg name="config" value="$(arg config)"/>
+        <arg name="param_file_name" value="$(arg param_file_name)"/>
+    </include>
+
+    <remap from="open_loop_intersection_control_node/mode" to="fsm_node/mode"/>
+    <remap from="open_loop_intersection_control_node/lane_pose" to="lane_filter_node/lane_pose"/>
+    <remap from="open_loop_intersection_control_node/stop_line_reading" to="stop_line_filter_node/stop_line_reading"/>
+    <remap from="open_loop_intersection_control_node/in_lane" to="lane_filter_node/in_lane"/>
+
+    <include file="$(find intersection_control)/launch/open_loop_intersection_controller_node.launch">
+        <arg name="veh" value="$(arg veh)"/>
+        <arg name="config" value="$(arg config)"/>
+        <arg name="param_file_name" value="$(arg param_file_name)"/>
+    </include>
+
+    <include file="$(find dagu_car)/launch/car_cmd_switch_node.launch">
+        <arg name="veh" value="$(arg veh)"/>
+        <arg name="config" value="$(arg config)"/>
+        <arg name="param_file_name" value="cmd_based_intersections"/>
+    </include>
+
+    <remap from="inverse_kinematics_node/car_cmd" to="car_cmd_switch_node/cmd"/>
+    <include file="$(find dagu_car)/launch/inverse_kinematics_node.launch">
+        <arg name="veh" value="$(arg veh)"/>
+        <arg name="local" value="$(arg local)"/>
+        <arg name="config" value="$(arg config)"/>
+    </include>
+
+    <remap from="wheels_driver_node/wheels_cmd" to="inverse_kinematics_node/wheels_cmd"/>
+    <include file="$(find dagu_car)/launch/wheels_driver_node.launch">
+        <arg name="veh" value="$(arg veh)"/>
+    </include>
+
+
+</launch>
