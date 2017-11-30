@@ -64,6 +64,7 @@ add_message_files(
   ObstacleImageDetectionList.msg
   ObstacleProjectedDetection.msg
   ObstacleProjectedDetectionList.msg
+  TagAction.msg
 
 )
 
@@ -72,6 +73,8 @@ add_service_files(
   FILES
   SetFSMState.srv
   SetValue.srv
+  SetTagsSequence.srv
+  GetCurrentAction.srv
   # Service2.srv
 )
 

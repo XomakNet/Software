@@ -1,0 +1,7 @@
+---
+string action
+bool incorrect_sequence
+bool not_presented
+bool no_sequence
+bool no_tag
+bool ok
