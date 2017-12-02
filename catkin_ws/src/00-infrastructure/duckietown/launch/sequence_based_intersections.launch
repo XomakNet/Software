@@ -22,6 +22,7 @@
         <arg name="param_file_name" value="$(arg param_file_name)"/>
     </include>
 
+    <remap from="tag_sequence_controller_node/tag_available" to="tag_sequence_detector_node/tag_available"/>
     <remap from="tag_sequence_controller_node/fsm_state" to="fsm_node/mode"/>
     <remap from="tag_sequence_controller_node/get_current_action" to="tag_sequence_detector_node/get_current_action"/>
     <remap from="tag_sequence_controller_node/turn_left" to="open_loop_intersection_control_node/turn_left"/>
