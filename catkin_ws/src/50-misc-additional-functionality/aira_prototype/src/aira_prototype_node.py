@@ -50,19 +50,20 @@ class AiraPrototypeNode(object):
         self.current_log.append(msg.tag_id)
 
     def on_sequence_finished(self, msg):
-        rospy.loginfo("Sequence finished. Publishing log to IPFS...")
+        rospy.loginfo("[%s] Sequence finished. Publishing log to IPFS..." % self.node_name)
         ipfs_hash = self.ipfs_connector.create_result(self.current_log)
-        rospy.loginfo("Published: %s. Applying to blockchain." % ipfs_hash)
+        rospy.loginfo("[%s] Published: %s. Applying to blockchain." % (self.node_name, ipfs_hash))
         self.active_liability.set_result(ipfs_hash)
-        rospy.loginfo("Finished.")
+        rospy.loginfo("[%s] Finished." % self.node_name)
         self.active_liability = None
 
     def execute_liability(self, liability):
-        rospy.loginfo("Executing liability %s..." % liability.contract.address)
+        rospy.loginfo("[%s] Executing liability %s. Gathering it from IPFS..." %
+                      (self.node_name, liability.contract.address))
         self.active_liability = liability
         objective_hash = liability.get_objective()
         objective_json = self.ipfs_connector.get_robot_sequence(objective_hash)
-        rospy.loginfo("Objective gathered from IPFS")
+        rospy.loginfo("[%s] Objective gathered from IPFS" % self.node_name)
         objective = json.loads(objective_json)
         tag_sequence = []
         self.current_log = []
@@ -77,7 +78,7 @@ class AiraPrototypeNode(object):
     def new_block_callback(self, block):
         new_contracts = self.factory_contract.get_new_contracts(self.machine_address)
         for contract_address in new_contracts:
-            rospy.loginfo("New contract: %s" % contract_address)
+            rospy.loginfo("[%s] New liability: %s" % (self.node_name, contract_address))
             self.tracking_liabilities.append(RobotLiabilityContract(self.web3, contract_address, self.machine_address))
 
         updated_liabilities = []
@@ -86,7 +87,8 @@ class AiraPrototypeNode(object):
             objective = liability.get_objective()
             required_in_future = True
             if objective is not None:
-                rospy.loginfo("Liability %s is waiting to be executed." % liability.contract.address)
+                rospy.loginfo("[%s] Liability %s is waiting to be executed."
+                              % (self.node_name, liability.contract.address))
                 if self.active_liability is None:
                     self.execute_liability(liability)
                     required_in_future = False
