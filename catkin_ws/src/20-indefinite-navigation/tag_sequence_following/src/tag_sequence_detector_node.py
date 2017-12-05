@@ -57,7 +57,8 @@ class TagSequenceDetectorNode(object):
                         response['incorrect_sequence'] = True
                         current_action = self.current_sequence[next_idx]
                         self.current_index = next_idx
-                        rospy.logwarn("Incorrect sequence: tag %s was not expected here" % self.last_detected_tag_id)
+                        rospy.logwarn("[%s] Incorrect sequence: tag %s was not expected here" %
+                                      (self.node_name, self.last_detected_tag_id))
                     else:
                         current_action = None
 
@@ -66,17 +67,18 @@ class TagSequenceDetectorNode(object):
                     response['ok'] = True
                 else:
                     response['not_presented'] = True
-                    rospy.logwarn("Not presented: tag %s was not found" % self.last_detected_tag_id)
+                    rospy.logwarn("[%s] Not presented: tag %s was not found" %
+                                  (self.node_name, self.last_detected_tag_id))
 
                 if self.current_index >= len(self.current_sequence):
                     self.current_sequence = None
 
             else:
                 response['no_sequence'] = True
-                rospy.logwarn("No sequence")
+                rospy.logwarn("[%s] No sequence" % self.node_name)
         else:
             response['no_tag'] = True
-            rospy.logwarn("No tag")
+            rospy.logwarn("[%s] No tag" % self.node_name)
 
         return response
 

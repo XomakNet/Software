@@ -32,26 +32,26 @@ class TagSequenceControllerNode(object):
         return {}
 
     def turn(self):
-        rospy.loginfo("Requesting action info...")
+        rospy.loginfo("[%s] Requesting action info..." % self.node_name)
 
         action_info = self.get_current_action()
         if action_info.ok:
-            rospy.loginfo("Will perform: %s" % action_info.action)
+            rospy.loginfo("[%s] Will perform: %s" % (self.node_name, action_info.action))
             turn = rospy.ServiceProxy(self.turn_service_prefix + action_info.action, Empty)
             turn()
         elif action_info.no_tag:
-            rospy.loginfo("No tag available, waiting...")
+            rospy.loginfo("[%s] No tag available, waiting..." % self.node_name)
             self.waiting_for_tag = True
 
     def on_tag_available(self, msg):
         if self.waiting_for_tag and msg.data:
-            rospy.loginfo("Tag available")
+            rospy.loginfo("[%s] Tag available" % self.node_name)
             self.waiting_for_tag = False
             self.turn()
 
     def on_fsm_state(self, msg):
         if msg.state == self.intersection_state:
-            rospy.loginfo("FSM changed to intersection state")
+            rospy.loginfo("[%s] FSM changed to intersection state" % self.node_name)
             self.turn()
         else:
             self.waiting_for_tag = False
