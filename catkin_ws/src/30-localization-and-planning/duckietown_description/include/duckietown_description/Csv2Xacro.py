@@ -38,6 +38,7 @@ class Csv2Xacro(object):
         tempChild.setAttribute('value',str(self.tile_width))
         root.appendChild(tempChild)
 
+        # TODO: Refactor this and try to save back-compatibility
         # Create tag offsets
         tempChild = doc.createElement('xacro:property')
         tempChild.setAttribute('name','pos_0')
@@ -77,6 +78,16 @@ class Csv2Xacro(object):
         tempChild = doc.createElement('xacro:property')
         tempChild.setAttribute('name','pos_7')
         tempChild.setAttribute('value','%s %s'%(str(self.tag_offset), str(-self.tag_curb)))
+        root.appendChild(tempChild)
+
+        tempChild = doc.createElement('xacro:property')
+        tempChild.setAttribute('name','pos_8')
+        tempChild.setAttribute('value','%s %s'%(str(-self.tag_curb), str(-self.tag_curb)))
+        root.appendChild(tempChild)
+
+        tempChild = doc.createElement('xacro:property')
+        tempChild.setAttribute('name','pos_9')
+        tempChild.setAttribute('value','%s %s'%(str(self.tag_curb), str(self.tag_curb)))
         root.appendChild(tempChild)
 
 
