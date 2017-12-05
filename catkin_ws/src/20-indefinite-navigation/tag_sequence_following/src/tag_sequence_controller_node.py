@@ -37,8 +37,9 @@ class TagSequenceControllerNode(object):
         action_info = self.get_current_action()
         if action_info.ok:
             rospy.loginfo("Will perform: %s" % action_info.action)
-            turn = rospy.ServiceProxy(self.turn_service_prefix + action_info.action, Empty)
-            turn()
+            if action_info.action != "stop":
+                turn = rospy.ServiceProxy(self.turn_service_prefix + action_info.action, Empty)
+                turn()
         elif action_info.no_tag:
             rospy.loginfo("No tag available, waiting...")
             self.waiting_for_tag = True
