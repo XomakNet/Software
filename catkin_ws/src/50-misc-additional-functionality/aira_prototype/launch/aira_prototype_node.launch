@@ -1,0 +1,22 @@
+<launch>
+    <arg name="veh" doc="Name of vehicle. ex: megaman"/>
+    <arg name="local" default="false" doc="true for running on laptop. false for running on vehicle."/>
+    <arg name="config" default="baseline" doc="Specify a config."/>
+    <arg name="param_file_name" default="default"/>
+
+    <group ns="$(arg veh)">
+        <node if="$(arg local)" pkg="aira_prototype" type="aira_prototype_node.py"
+              name="aira_prototype_node" clear_params="true" output="screen" required="true">
+            <rosparam command="load"
+                      file="$(find duckietown)/config/$(arg config)/aira_prototype/aira_prototype_node/$(arg param_file_name).yaml"/>
+        </node>
+
+        <node unless="$(arg local)" machine="$(arg veh)" pkg="aira_prototype"
+              type="aira_prototype_node.py" name="aira_prototype_node" clear_params="true"
+              output="screen" required="true">
+            <rosparam command="load"
+                      file="$(find duckietown)/config/$(arg config)/aira_prototype/aira_prototype_node/$(arg param_file_name).yaml"/>
+        </node>
+    </group>
+
+</launch>

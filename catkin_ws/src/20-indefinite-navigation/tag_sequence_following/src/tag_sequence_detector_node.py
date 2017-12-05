@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import rospy
 import tf.transformations as tr
-from duckietown_msgs.msg import AprilTagDetectionArray
+from duckietown_msgs.msg import AprilTagDetectionArray, TagAction
 from duckietown_msgs.srv import SetTagsSequence, GetCurrentAction
 from std_msgs.msg import Bool
 
@@ -14,6 +14,8 @@ class TagSequenceDetectorNode(object):
 
         self.tags_topic = rospy.Subscriber('~tags', AprilTagDetectionArray, self.on_tag_detections)
         self.tag_available = rospy.Publisher('~tag_available', Bool)
+        self.tags_passed = rospy.Publisher('~tags_passed', TagAction)
+        self.sequence_finished = rospy.Publisher('~sequence_finished', Bool)
 
         self.current_sequence = None
         self.current_index = None
@@ -63,6 +65,7 @@ class TagSequenceDetectorNode(object):
                         current_action = None
 
                 if current_action is not None:
+                    self.tags_passed.publish(TagAction(self.last_detected_tag_id, current_action.action))
                     response['action'] = current_action.action
                     response['ok'] = True
                 else:
@@ -72,6 +75,7 @@ class TagSequenceDetectorNode(object):
 
                 if self.current_index >= len(self.current_sequence):
                     self.current_sequence = None
+                    self.sequence_finished.publish(Bool(True))
 
             else:
                 response['no_sequence'] = True

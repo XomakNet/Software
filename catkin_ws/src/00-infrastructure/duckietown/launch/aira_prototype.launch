@@ -1,0 +1,36 @@
+<launch>
+    <arg name="veh" doc="Name of vehicle. ex: megaman"/>
+    <arg name="local" default="true"
+         doc="true for running everything you possibly can on laptop. false for everything running on vehicle."/>
+    <arg name="config" default="baseline" doc="Specify a config."/>
+    <arg name="param_file_name" default="default" doc="Specify a param file. ex:megaman."/>
+    <arg name="live" default="true" doc="if set to true, run the camera and do live detection. "/>
+
+
+    '~tags_passed', TagAction, self.on_tag_passed)
+    self.fsm_state_topic = rospy.Subscriber('~sequence_finished'
+    set_tags_sequence
+
+
+    <include file="$(find duckietown)/launch/sequence_based_intersections.launch">
+        <arg name="veh" value="$(arg veh)"/>
+        <arg name="local" value="$(arg local)"/>
+        <arg name="config" value="$(arg config)"/>
+        <arg name="param_file_name" value="$(arg param_file_name)"/>
+        <arg name="live" value="$(arg live)"/>
+    </include>
+
+    <remap from="aira_prototype_node/tags_passed" to="tag_sequence_detector_node/tags_passed"/>
+    <remap from="aira_prototype_node/sequence_finished" to="tag_sequence_detector_node/sequence_finished"/>
+    <remap from="aira_prototype_node/set_tags_sequence" to="tag_sequence_detector_node/set_tags_sequence"/>
+    <remap from="aira_prototype_node/init_movement" to="tag_sequence_controller_node/init_movement"/>
+
+    <include file="$(find aira_prototype)/launch/aira_prototype_node.launch">
+        <arg name="veh" value="$(arg veh)"/>
+        <arg name="local" value="$(arg local)"/>
+        <arg name="config" value="$(arg config)"/>
+        <arg name="param_file_name" value="$(arg param_file_name)"/>
+    </include>
+
+
+</launch>

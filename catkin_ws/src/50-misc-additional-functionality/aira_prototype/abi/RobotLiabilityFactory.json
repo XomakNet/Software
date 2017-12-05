@@ -1,0 +1,49 @@
+[
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_validation_model",
+          "type": "bytes"
+        },
+        {
+          "name": "_confirmation_count",
+          "type": "uint256"
+        },
+        {
+          "name": "_promisee",
+          "type": "address"
+        },
+        {
+          "name": "_promisor",
+          "type": "address"
+        }
+      ],
+      "name": "createLiability",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "payable": false,
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "liability",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "promisor",
+          "type": "address"
+        }
+      ],
+      "name": "LiabilityRegistered",
+      "type": "event"
+    }
+  ]
