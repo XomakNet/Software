@@ -4,6 +4,7 @@ import tf.transformations as tr
 from duckietown_msgs.msg import AprilTagDetectionArray, TagAction
 from duckietown_msgs.srv import SetTagsSequence, GetCurrentAction
 from std_msgs.msg import Bool
+from time import time
 
 __author__ = "Xomak"
 
@@ -11,6 +12,8 @@ __author__ = "Xomak"
 class TagSequenceDetectorNode(object):
     def __init__(self):
         self.node_name = rospy.get_name()
+
+        self.tag_live_time = rospy.get_param('~tag_live_time',)
 
         self.tags_topic = rospy.Subscriber('~tags', AprilTagDetectionArray, self.on_tag_detections)
         self.tag_available = rospy.Publisher('~tag_available', Bool)
@@ -21,6 +24,7 @@ class TagSequenceDetectorNode(object):
         self.current_index = None
 
         self.last_detected_tag_id = None
+        self.last_detection_time = 0
 
         rospy.Service("~set_tags_sequence", SetTagsSequence, self.on_sequence)
         rospy.Service("~get_current_action", GetCurrentAction, self.on_get_action)
@@ -49,10 +53,13 @@ class TagSequenceDetectorNode(object):
             'ok': False,
         }
 
+        # TODO: May be we should implement this using time from messages or ROS Time
+        if self.last_detected_tag_id is not None and time() - self.last_detection_time > self.tag_live_time:
+            self.last_detected_tag_id = None
+
         if self.last_detected_tag_id is not None:
             if self.current_sequence is not None:
                 current_action = self.current_sequence[self.current_index]
-                self.current_index += 1
                 if current_action.tag_id != self.last_detected_tag_id:
                     next_idx = self.find_tag_id_in_sequence(self.last_detected_tag_id)
                     if next_idx is not None:
@@ -66,16 +73,20 @@ class TagSequenceDetectorNode(object):
 
                 if current_action is not None:
                     self.tags_passed.publish(TagAction(self.last_detected_tag_id, current_action.action))
+                    rospy.loginfo("[%s] Tag %s -> %s" %
+                                  (self.node_name, self.last_detected_tag_id, current_action.action))
                     response['action'] = current_action.action
                     response['ok'] = True
                 else:
                     response['not_presented'] = True
+                    self.current_index = 0
                     rospy.logwarn("[%s] Not presented: tag %s was not found" %
                                   (self.node_name, self.last_detected_tag_id))
 
-                if self.current_index >= len(self.current_sequence):
+                if self.current_index >= (len(self.current_sequence) - 1):
                     self.current_sequence = None
                     self.sequence_finished.publish(Bool(True))
+                self.current_index += 1
 
             else:
                 response['no_sequence'] = True
@@ -103,6 +114,7 @@ class TagSequenceDetectorNode(object):
             tags_with_angles.sort(key=lambda x: x[0])
             main_tag = tags_with_angles[0][1]
             self.last_detected_tag_id = main_tag.id
+            self.last_detection_time = time()
             self.tag_available.publish(Bool(True))
         else:
             self.last_detected_tag_id = None
