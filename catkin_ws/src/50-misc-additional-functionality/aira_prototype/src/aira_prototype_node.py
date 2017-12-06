@@ -50,12 +50,13 @@ class AiraPrototypeNode(object):
         self.current_log.append(msg.tag_id)
 
     def on_sequence_finished(self, msg):
-        rospy.loginfo("[%s] Sequence finished. Publishing log to IPFS..." % self.node_name)
-        ipfs_hash = self.ipfs_connector.create_result(self.current_log)
-        rospy.loginfo("[%s] Published: %s. Applying to blockchain." % (self.node_name, ipfs_hash))
-        self.active_liability.set_result(ipfs_hash)
-        rospy.loginfo("[%s] Finished." % self.node_name)
-        self.active_liability = None
+        if self.active_liability is not None:
+            rospy.loginfo("[%s] Sequence finished. Publishing log to IPFS..." % self.node_name)
+            ipfs_hash = self.ipfs_connector.create_result(self.current_log)
+            rospy.loginfo("[%s] Published: %s. Applying to blockchain." % (self.node_name, ipfs_hash))
+            self.active_liability.set_result(ipfs_hash)
+            rospy.loginfo("[%s] Finished." % self.node_name)
+            self.active_liability = None
 
     def execute_liability(self, liability):
         rospy.loginfo("[%s] Executing liability %s. Gathering it from IPFS..." %
