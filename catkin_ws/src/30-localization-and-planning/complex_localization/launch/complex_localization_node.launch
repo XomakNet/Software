@@ -1,0 +1,24 @@
+<launch>
+    <arg name="pkg_name" value="complex_localization"/>
+    <arg name="node_name" default="complex_localization_node"/>
+
+
+    <arg name="veh" doc="Name of vehicle. ex: megaman"/>
+    <arg name="local" default="false" doc="true for running on laptop. false for running on vehicle."/>
+    <arg name="config" default="baseline" doc="Specify a config."/>
+    <arg name="param_file_name" default="default"/>
+
+    <node ns="$(arg veh)" if="$(arg local)" pkg="$(arg pkg_name)" type="$(arg node_name).py"
+          name="$(arg node_name)" clear_params="true" output="screen" required="true">
+        <rosparam command="load"
+                  file="$(find duckietown)/config/$(arg config)/$(arg pkg_name)/$(arg node_name)/$(arg param_file_name).yaml"/>
+    </node>
+
+    <node ns="$(arg veh)" unless="$(arg local)" machine="$(arg veh)" pkg="$(arg pkg_name)"
+          type="$(arg node_name).py" name="$(arg node_name)" clear_params="true" output="screen"
+          required="true">
+        <rosparam command="load"
+                  file="$(find duckietown)/config/$(arg config)/$(arg pkg_name)/$(arg node_name)/$(arg param_file_name).yaml"/>
+    </node>
+
+</launch>
