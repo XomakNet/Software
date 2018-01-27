@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import rospy
 from duckietown_msgs.msg import Twist2DStamped, Pose2DStamped
+from std_srvs.srv import Empty, EmptyResponse
 from numpy import *
 
 
@@ -23,7 +24,12 @@ class VelocityToPoseNode(object):
         # Setup the publisher and subscriber
         self.sub_velocity = rospy.Subscriber("~velocity", Twist2DStamped, self.velocity_callback, queue_size=1)
         self.pub_pose = rospy.Publisher("~pose", Pose2DStamped, queue_size=1)
+        rospy.Service("~reset_pose", Empty, self.pose_reset)
         rospy.loginfo("[%s] Initialized.", self.node_name)
+
+    def pose_reset(self, req):
+        self.last_pose = Pose2DStamped()
+        return EmptyResponse()
 
     def velocity_callback(self, msg_velocity):
         if self.last_pose.header.stamp.to_sec() > 0:  # skip first frame
