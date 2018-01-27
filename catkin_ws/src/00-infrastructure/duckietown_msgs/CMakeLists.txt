@@ -75,6 +75,7 @@ add_service_files(
   SetValue.srv
   SetTagsSequence.srv
   GetCurrentAction.srv
+  GetStopLineForTag.srv
   # Service2.srv
 )
 

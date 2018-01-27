@@ -1,0 +1,27 @@
+<launch>
+    <arg name="pkg_name" value="duckietown_description"/>
+    <arg name="node_name" default="tag_to_stopline_node"/>
+
+
+    <arg name="veh" doc="Name of vehicle. ex: megaman"/>
+    <arg name="map_name" default="default"/>
+    <arg name="local" default="false" doc="true for running on laptop. false for running on vehicle."/>
+    <arg name="config" default="baseline" doc="Specify a config."/>
+    <arg name="param_file_name" default="default"/>
+
+    <node ns="$(arg veh)" if="$(arg local)" pkg="$(arg pkg_name)" type="$(arg node_name).py"
+          name="$(arg node_name)" clear_params="true" output="screen" required="true">
+        <param name="tag_map_csv" value="$(find duckietown_description)/tags_$(arg map_name).csv"/>
+        <rosparam command="load"
+                  file="$(find duckietown)/config/$(arg config)/$(arg pkg_name)/$(arg node_name)/$(arg param_file_name).yaml"/>
+    </node>
+
+    <node ns="$(arg veh)" unless="$(arg local)" machine="$(arg veh)" pkg="$(arg pkg_name)"
+          type="$(arg node_name).py" name="$(arg node_name)" clear_params="true" output="screen"
+          required="true">
+        <param name="tag_map_csv" value="$(find duckietown_description)/tags_$(arg map_name).csv"/>
+        <rosparam command="load"
+                  file="$(find duckietown)/config/$(arg config)/$(arg pkg_name)/$(arg node_name)/$(arg param_file_name).yaml"/>
+    </node>
+
+</launch>
